@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tic Tac Toe Game</title>
+<link href="style.css" rel="stylesheet"/>
+<script src="vue.min.js"></script>
+</head>
+<body>
+    <header><center><h1>Tic Tac Toe Game</h1></center></header>
+    <div id="game">
+        <div class="top" style=" height: 40px; width: 500px; color: white; display: inline; text-align: center;" v-if="showScore"><span>{{ playerOne }}: {{ playerScore }}</span><span>{{ playerTwo }}: {{ compScore }} </span></div>
+            <board-table ref="boardTable"></board-table>
+            <button class="resetGame hvr-shutter-in-vertical" v-on:click="resetGame" v-if="resetButton">Reset Game</button>
+    </div>
+    <footer><center><h4>Made with <span style="font-size: 26px;">♥</span> with Vue.js by Paweł Pęczkowski</h4></center></footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
