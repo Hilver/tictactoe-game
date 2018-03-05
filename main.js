@@ -72,7 +72,8 @@ Vue.component('game-AI-O-master',{
                     el.splice(el.indexOf(5),1);
                 }                
                 return el;                
-            });            
+            });
+            console.log(this.winDataC);            
          }else if(this.playData.length === 1){                                        // jeśli pierwszym ruchem gracza jest zagranie w środek, komputer musi wykonać ruch w jeden z rogów (warunek konieczny do wygranej/remisu)
             var randomMove = [1,3,7,9];
             var pickRandom = randomMove[Math.floor(Math.random()*randomMove.length)];
@@ -106,7 +107,7 @@ Vue.component('game-AI-O-master',{
             var moveC = this.winFilter.filter(function(el){                         // filtr ruchów AI, jeśli zwracana tablica ma jeden element to jest to ruch na zwycięstwo dla gracza
                 return el.length === 1;                
             });
-
+            
             var tryWinMoveC = this.winDataC.filter(function(el){                    // filtr ruchów AI, jeśli zwracana tablica ma jeden element to jest to ruch na zwycięstwo dla AI   
                 return el.length === 1;
             });
@@ -152,6 +153,23 @@ Vue.component('game-AI-O-master',{
                     document.getElementById('score-pop-up').classList.add('show');
                 }                                                                
                 
+                if(this.playData[this.playData.length -1] && this.playData[this.playData.length -2] % 2){        // poprawka do buga związanego z zagraniem X po przekątnych
+
+                    moveC = this.winFilter.map(function(el){                              // filtr tablicy po pozostałych możliwościach wygranej dla gracza w dwóch następnych ruchach
+                        if(el.length === 2){
+                            return el;
+                        }else{
+                            return [];
+                        }
+                    }).reduce(function(a,b){
+                        return a.concat(b);
+                    }).filter(function(el){
+                        return el % 2 === 0;
+                    })
+
+
+                }else{
+
                 moveC = this.winFilter.map(function(el){                              // filtr tablicy po pozostałych możliwościach wygranej dla gracza w dwóch następnych ruchach
                     if(el.length === 2){
                         return el;
@@ -161,6 +179,9 @@ Vue.component('game-AI-O-master',{
                 }).reduce(function(a,b){
                     return a.concat(b);
                 })
+            }
+
+                console.log(moveC);
                 
                 randomMoveC = moveC[Math.floor(Math.random()*moveC.length)];        // wybór ruchu komputera z pozostałych możliwych wygranych gracza
                 document.getElementById(randomMoveC).innerHTML = "O";
